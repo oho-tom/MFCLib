@@ -9,6 +9,7 @@
 // include
 //------------------------------------------------------------------------------
 // MFC header
+#include <afxext.h>         // MFC ‚ÌŠg’£•”•ª
 #include <atlstr.h>
 // c++ header
 #include <vector>
