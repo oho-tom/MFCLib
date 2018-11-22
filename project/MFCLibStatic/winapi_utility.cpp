@@ -80,16 +80,13 @@ bool CreateFolderList(const CString& target_directory, const bool& isIncludingSu
 			continue;
 		}
 
-		// 検索用の文字"\\*"を削除
-		if (target.Right(0) == '*')
-			target.TrimRight();
-		if (target.Right(0) == '\\')
-			target.TrimRight();
+		// 検索用の文字"*"を削除
+		target.TrimRight(_T("*"));
 
 		//------------------------------------------------------------------
 		// サブフォルダパス作成
 		//------------------------------------------------------------------
-		CString sub_folder = target + '\\' + folder_name;
+		CString sub_folder = target + folder_name;
 		//------------------------------------------------------------------
 		// フォルダパスを出力変数に追加
 		//------------------------------------------------------------------
