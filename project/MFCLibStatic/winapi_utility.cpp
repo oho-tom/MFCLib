@@ -29,6 +29,17 @@ bool GetModuleDirectory(CString& module_directory)
 	TCHAR temporary_path[_MAX_PATH];
 	memset(temporary_path, 0x00, sizeof(temporary_path));
 	::GetModuleFileName(NULL, temporary_path, sizeof(temporary_path));
+
+	CString drive;
+	CString directory;
+	CString filename;
+	CString extension;
+
+	//SplitPath(temporary_path, drive, directory, filename, extension);
+
+	GetFileName(temporary_path, filename, true);
+	GetFileName(temporary_path, filename, false);
+
 	// 最後の\の位置を求める
 	TCHAR* last_backslash = _tcsrchr(temporary_path, '\\');
 	// 末尾にNULL文字を入れる
@@ -110,4 +121,52 @@ bool CreateFolderList(const CString& target_directory, const bool& isIncludingSu
 	return true;
 }
 
+//! パス文字列を分解する
+/*!
+@brief パス文字列を分解する
+@param[in] path ファイルパス
+@param[out] drive ドライブ
+@param[out] directory ディレクトリ
+@param[out] filename ファイル名
+@param[out] extension 拡張子
+@retval true 成功
+@retval false 失敗
+*/
+bool SplitPath(const CString& path, CString& drive, CString& directory, CString& filename, CString& extension)
+{
+	TCHAR drv[_MAX_DRIVE];
+	TCHAR dir[_MAX_DIR];
+	TCHAR fname[_MAX_FNAME];
+	TCHAR ext[_MAX_EXT];
+
+	_tsplitpath_s(path, drv, _MAX_DRIVE, dir, _MAX_DIR, fname, _MAX_FNAME, ext, _MAX_EXT);
+
+	drive = drv;
+	directory = dir;
+	filename = fname;
+	extension = ext;
+
+	return true;
+}
+
+/*!
+@brief ファイルパスからファイル名に相当する部分を抜き出す
+@param[in] path ファイルパス
+@param[out] filename ファイル名
+@retval true 成功
+@retval false 失敗
+*/
+bool GetFileName(const CString& path, CString& filename, const bool hasExtension)
+{
+	CString drive;
+	CString directory;
+	CString extension;
+
+	bool result = SplitPath(path, drive, directory, filename, extension);
+
+	if (hasExtension)
+		filename += extension;
+
+	return result;
+};
 };
