@@ -20,6 +20,9 @@
 */
 namespace winapi_utility
 {
+//! ファイル/フォルダの存在確認
+bool isExist(const CString& path);
+
 //! モジュールのディレクトリ取得
 extern bool GetModuleDirectory(CString& module_directory);
 

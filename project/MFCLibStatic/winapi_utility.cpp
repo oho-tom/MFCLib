@@ -18,6 +18,23 @@
 
 namespace winapi_utility
 {
+//! ファイル/フォルダの存在確認
+bool isExist(const CString& path)
+{
+	if (::PathFileExists(path) && !::PathIsDirectory(path))
+	{
+		// 指定されたパスが存在、かつディレクトリでない、つまりファイル
+		return true;
+	}
+	else if (::PathFileExists(path))
+	{
+		// 指定されたパスが存在、かつディレクトリである
+		return true;
+	}
+
+	return false;
+}
+
 /*
  @brief モジュールのディレクトリ取得
  @param[out] module_directory モジュールのディレクトリ
@@ -29,6 +46,10 @@ bool GetModuleDirectory(CString& module_directory)
 	TCHAR temporary_path[_MAX_PATH];
 	memset(temporary_path, 0x00, sizeof(temporary_path));
 	::GetModuleFileName(NULL, temporary_path, sizeof(temporary_path));
+
+	// 存在確認
+	bool resut = false;
+	resut = isExist(temporary_path);
 
 	CString drive;
 	CString directory;
@@ -47,6 +68,9 @@ bool GetModuleDirectory(CString& module_directory)
 		temporary_path[(int)(last_backslash - temporary_path)] = 0x00;
 
 	module_directory = temporary_path;
+
+	// 存在確認
+	resut = isExist(temporary_path);
 
 	return true;
 }
@@ -138,6 +162,11 @@ bool SplitPath(const CString& path, CString& drive, CString& directory, CString&
 	TCHAR dir[_MAX_DIR];
 	TCHAR fname[_MAX_FNAME];
 	TCHAR ext[_MAX_EXT];
+
+	drive = path;
+	directory = path;
+	filename = path;
+	extension = path;
 
 	_tsplitpath_s(path, drv, _MAX_DRIVE, dir, _MAX_DIR, fname, _MAX_FNAME, ext, _MAX_EXT);
 
