@@ -23,7 +23,7 @@ namespace UnitTest
 
 			bool result = isExist(module_directory);
 
-			Assert::AreEqual(result, true);
+			Assert::IsTrue(result);
 		}
 
 		/*
@@ -33,32 +33,51 @@ namespace UnitTest
 		*/
 		TEST_METHOD(isExist_UnExistFile)
 		{
-			bool result = false;
+			bool result = isExist(_T("C:\\hoge.txt"));
+			Assert::IsFalse(result);
+		}
 
+		/*
+		@brief isExist
+		@par
+			条件：存在するファイルを引数で与える
+		*/
+		TEST_METHOD(isExist_ExistFile)
+		{
 			// モジュールファイルパス
 			TCHAR temporary_path[_MAX_PATH];
 			memset(temporary_path, 0x00, sizeof(temporary_path));
-			::GetModuleFileName(NULL, temporary_path, sizeof(temporary_path));
+			int size = ::GetModuleFileName(NULL, temporary_path, sizeof(temporary_path));
+			Assert::AreNotEqual(size, 0);
 
+			bool result = isExist(temporary_path);
+			Assert::IsTrue(result);
+		}
+
+		/*
+		@brief isExist
+		@par
+			条件：存在しないディレクトリを引数で与える
+		*/
+		TEST_METHOD(isExist_UnExistDirectory)
+		{
+			bool result = isExist(_T("C:\\hoge"));
+			Assert::IsFalse(result);
+		}
+
+		/*
+		@brief isExist
+		@par
+			条件：存在するディレクトリを引数で与える
+		*/
+		TEST_METHOD(isExist_ExistDirectory)
+		{
 			// モジュールディレクトリ
 			CString module_directory;
 			GetModuleDirectory(module_directory);
 
-			// 存在しないファイル
-			result = isExist(_T("C:\\hoge.txt"));
-			Assert::AreEqual(result, false);
-			
-			// 存在するファイル
-			result = isExist(temporary_path);
-			Assert::AreEqual(result, true);
-
-			// 存在しないディレクトリ
-			result = isExist(_T("C:\\hoge"));
-			Assert::AreEqual(result, false);
-
-			// 存在するディレクトリ
-			result = isExist(module_directory);
-			Assert::AreEqual(result, true);
+			bool result = isExist(module_directory);
+			Assert::IsTrue(result);
 		}
 	};
 }
