@@ -145,7 +145,6 @@ bool CreateFolderList(const CString& target_directory, const bool& isIncludingSu
 	return true;
 }
 
-//! パス文字列を分解する
 /*!
 @brief パス文字列を分解する
 @param[in] path ファイルパス

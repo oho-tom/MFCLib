@@ -7,14 +7,20 @@ using namespace winapi_utility;
 
 namespace UnitTest
 {		
-	TEST_CLASS(UT_winapi_utility)
+	/*!
+		@class UT_winapi_utility
+		@brief winapi_utilityの単体テストクラス
+	*/
+	// doxygenにclassを認識させるためTEST_CLASSマクロは使用しない
+	//TEST_CLASS(UT_winapi_utility)
+	ONLY_USED_AT_NAMESPACE_SCOPE class UT_winapi_utility : public ::Microsoft::VisualStudio::CppUnitTestFramework::TestClass<UT_winapi_utility>
 	{
 	public:
 
-		/*
-		@brief GetModuleDirectory
-		@par
-			条件：取得したディレクトリが存在するか
+		/*!
+			@brief GetModuleDirectory()
+			@par
+				内容：取得したディレクトリが存在するか
 		*/
 		TEST_METHOD(GetModuleDirectory_ResultCheck)
 		{
@@ -26,10 +32,10 @@ namespace UnitTest
 			Assert::IsTrue(result);
 		}
 
-		/*
-		@brief isExist
-		@par
-			条件：存在しないファイルを引数で与える
+		/*!
+			@brief isExist()
+			@par
+				内容：存在しないファイルを引数で与える
 		*/
 		TEST_METHOD(isExist_UnExistFile)
 		{
@@ -37,10 +43,10 @@ namespace UnitTest
 			Assert::IsFalse(result);
 		}
 
-		/*
-		@brief isExist
-		@par
-			条件：存在するファイルを引数で与える
+		/*!
+			@brief isExist()
+			@par
+				内容：存在するファイルを引数で与える
 		*/
 		TEST_METHOD(isExist_ExistFile)
 		{
@@ -54,10 +60,11 @@ namespace UnitTest
 			Assert::IsTrue(result);
 		}
 
-		/*
-		@brief isExist
-		@par
-			条件：存在しないディレクトリを引数で与える
+		/*!
+			@brief isExist()
+			@par
+			内容：
+				存在しないディレクトリを引数で与える
 		*/
 		TEST_METHOD(isExist_UnExistDirectory)
 		{
@@ -65,10 +72,10 @@ namespace UnitTest
 			Assert::IsFalse(result);
 		}
 
-		/*
-		@brief isExist
-		@par
-			条件：存在するディレクトリを引数で与える
+		/*!
+			@brief isExist()
+			@par
+				内容：存在するディレクトリを引数で与える
 		*/
 		TEST_METHOD(isExist_ExistDirectory)
 		{
